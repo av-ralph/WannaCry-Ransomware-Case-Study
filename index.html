@@ -1,0 +1,690 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WannaCry Ransomware Attack Case Study</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&family=Inter:wght@300;400;700&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+  <!-- HUD Overlay -->
+  <div class="hud-overlay">
+    <div class="hud-corner hud-corner-tl"></div>
+    <div class="hud-corner hud-corner-tr"></div>
+    <div class="hud-corner hud-corner-bl"></div>
+    <div class="hud-corner hud-corner-br"></div>
+    <div class="hud-scanline"></div>
+  </div>
+
+  <!-- Background Canvas -->
+  <canvas id="matrix-canvas"></canvas>
+
+  <div id="ppt-deck" class="relative w-full h-full z-10">
+
+    <section id="slide-1" class="slide active grid-bg">
+      <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
+      <div class="relative z-10 flex flex-col items-center">
+        <div class="fade-up mb-8">
+          <div class="status-badge neon-glow-red border-red-500 text-red-500">
+            <div class="w-2 h-2 bg-red-500 rounded-full breathe shadow-[0_0_10px_#ff0000]"></div>
+            <span>GLOBAL THREAT REPORT // WC-2017</span>
+          </div>
+        </div>
+        <div class="relative mb-12 fade-up delay-1">
+          <div class="w-32 h-32 border-2 border-cyan-500/50 rounded-full flex items-center justify-center bg-black/50 neon-glow animate-pulse">
+            <i class="fa-solid fa-biohazard text-6xl text-cyan-400"></i>
+          </div>
+        </div>
+        <h1 class="font-display text-4xl md:text-5xl tracking-[0.3em] fade-up delay-1 mb-4 text-cyan-500/80 uppercase">Ransomware Attack</h1>
+        <h2 class="font-display text-7xl md:text-9xl font-bold glitch fade-up delay-2 text-white" data-text="WANNACRY">WANNACRY</h2>
+        <p class="text-cyan-500/60 mt-8 font-mono-tech tracking-[0.5em] uppercase fade-up delay-2 text-sm">Decentralized Destruction // May 2017</p>
+      </div>
+      <div class="absolute bottom-16 w-full flex justify-between px-20 text-sm fade-up delay-3 z-10">
+        <div class="border-l-2 border-cyan-500 pl-4 py-2 glass">
+          <p class="text-cyan-400 font-mono-tech text-[10px] mb-1">INTEL_SOURCE</p>
+          <p class="font-display font-bold tracking-widest text-white text-base">CASE_STUDY_V1.0</p>
+        </div>
+        <div class="text-right border-r-2 border-red-500 pr-4 py-2 glass">
+          <p class="text-red-400 font-mono-tech text-[10px] mb-1">TIMESTAMP</p>
+          <p class="font-display font-bold tracking-widest text-white text-base">2026.03.25</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-2" class="slide grid-bg">
+      <div class="relative w-[90%] h-[85%] glass p-10 flex flex-col fade-up">
+        <div class="tech-border-corner top-left"></div>
+        <div class="tech-border-corner top-right"></div>
+        <div class="tech-border-corner bottom-left"></div>
+        <div class="tech-border-corner bottom-right"></div>
+        <div class="flex justify-between items-end mb-8 border-b border-white/10 pb-6">
+          <div>
+            <p class="text-cyan-400 font-mono-tech text-xs tracking-widest uppercase mb-2">01 // Fundamentals</p>
+            <h1 class="font-display text-5xl font-bold text-white uppercase tracking-tight">What is Ransomware?</h1>
+          </div>
+          <div class="status-badge glass text-red-500 border-red-500/50">
+            <i class="fa-solid fa-shield-virus"></i>
+            <span>THREAT_LEVEL: CRITICAL</span>
+          </div>
+        </div>
+        <div class="flex-1 grid grid-cols-2 gap-16">
+          <div class="flex flex-col justify-center fade-up delay-1">
+            <div class="mb-10">
+              <h2 class="font-display text-xl text-cyan-400 mb-4 flex items-center gap-3 font-bold uppercase tracking-widest">
+                <i class="fa-solid fa-terminal text-sm"></i>
+                Core Definition
+              </h2>
+              <p class="text-gray-300 text-xl leading-relaxed">
+                A type of <span class="text-white font-bold">malicious software</span> designed to block access to a computer system until a sum of money is paid.
+              </p>
+            </div>
+            <div class="p-6 bg-red-500/5 border border-red-500/20 rounded">
+              <h3 class="font-mono-tech text-red-400 text-xs mb-3 uppercase tracking-widest">Primary Objective</h3>
+              <p class="text-gray-400 text-lg italic leading-relaxed">
+                "To encrypt sensitive data and use it as leverage for financial extortion through untraceable digital currency."
+              </p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 gap-4 fade-up delay-2">
+            <div class="card-base p-5 flex items-center gap-6">
+              <div class="icon-container w-14 h-14 shrink-0"><i class="fa-solid fa-lock text-xl"></i></div>
+              <div>
+                <h3 class="text-white font-bold uppercase tracking-wider mb-1">Encryption</h3>
+                <p class="text-gray-500 text-sm">Military-grade algorithms lock all user files.</p>
+              </div>
+            </div>
+            <div class="card-base p-5 flex items-center gap-6">
+              <div class="icon-container w-14 h-14 shrink-0"><i class="fa-brands fa-bitcoin text-xl"></i></div>
+              <div>
+                <h3 class="text-white font-bold uppercase tracking-wider mb-1">Extortion</h3>
+                <p class="text-gray-500 text-sm">Payment demanded in anonymous Bitcoin.</p>
+              </div>
+            </div>
+            <div class="card-base p-5 flex items-center gap-6">
+              <div class="icon-container w-14 h-14 shrink-0"><i class="fa-solid fa-clock text-xl"></i></div>
+              <div>
+                <h3 class="text-white font-bold uppercase tracking-wider mb-1">Urgency</h3>
+                <p class="text-gray-500 text-sm">Deadlines pressure victims into quick payment.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-3" class="slide grid-bg">
+      <div class="relative w-[90%] h-[85%] glass p-10 flex flex-col fade-up">
+        <div class="tech-border-corner top-left"></div>
+        <div class="tech-border-corner top-right"></div>
+        <div class="tech-border-corner bottom-left"></div>
+        <div class="tech-border-corner bottom-right"></div>
+        <div class="flex justify-between items-end mb-8 border-b border-white/10 pb-6">
+          <div>
+            <p class="text-cyan-400 font-mono-tech text-xs tracking-widest uppercase mb-2">02 // Timeline Analysis</p>
+            <h1 class="font-display text-5xl font-bold text-white uppercase tracking-tight">The Outbreak</h1>
+          </div>
+          <div class="status-badge glass"><i class="fa-regular fa-calendar"></i><span>MAY 12, 2017</span></div>
+        </div>
+        <div class="flex-1 flex flex-col justify-center space-y-6">
+          <div class="grid grid-cols-2 gap-8">
+            <div class="bullet-point glass p-6 flex items-start gap-6 fade-up delay-1">
+              <div class="icon-container w-16 h-16 shrink-0"><i class="fa-solid fa-clock-rotate-left text-2xl"></i></div>
+              <div>
+                <h3 class="text-white font-bold uppercase tracking-widest mb-2">Initial Launch</h3>
+                <p class="text-gray-400 leading-relaxed">The attack began early on a Friday, hitting organizations across Europe and Asia simultaneously.</p>
+              </div>
+            </div>
+            <div class="bullet-point glass p-6 flex items-start gap-6 fade-up delay-2">
+              <div class="icon-container w-16 h-16 shrink-0"><i class="fa-solid fa-globe text-2xl"></i></div>
+              <div>
+                <h3 class="text-white font-bold uppercase tracking-widest mb-2">Global Scale</h3>
+                <p class="text-gray-400 leading-relaxed">Infected over <span class="text-red-500 font-bold">200,000 systems</span> in <span class="text-red-500 font-bold">150 countries</span> within the first 24 hours.</p>
+              </div>
+            </div>
+            <div class="bullet-point glass p-6 flex items-start gap-6 fade-up delay-3">
+              <div class="icon-container w-16 h-16 shrink-0"><i class="fa-solid fa-worm text-2xl"></i></div>
+              <div>
+                <h3 class="text-white font-bold uppercase tracking-widest mb-2">Worm Mechanism</h3>
+                <p class="text-gray-400 leading-relaxed">Unlike typical ransomware, it was a <span class="text-cyan-400">self-propagating worm</span> that spread automatically through networks.</p>
+              </div>
+            </div>
+            <div class="bullet-point glass p-6 flex items-start gap-6 fade-up delay-4">
+              <div class="icon-container w-16 h-16 shrink-0"><i class="fa-solid fa-user-slash text-2xl"></i></div>
+              <div>
+                <h3 class="text-white font-bold uppercase tracking-widest mb-2">Zero-Click</h3>
+                <p class="text-gray-400 leading-relaxed">Required <span class="text-purple-400 font-bold">no human interaction</span> to spread laterally once it entered a network.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-4" class="slide grid-bg">
+      <div class="relative w-[90%] h-[85%] glass p-10 flex flex-col fade-up">
+        <div class="tech-border-corner top-left"></div>
+        <div class="tech-border-corner top-right"></div>
+        <div class="tech-border-corner bottom-left"></div>
+        <div class="tech-border-corner bottom-right"></div>
+        <div class="flex justify-between items-end mb-8 border-b border-white/10 pb-6">
+          <div>
+            <p class="text-cyan-400 font-mono-tech text-xs tracking-widest uppercase mb-2">03 // Technical Analysis</p>
+            <h1 class="font-display text-5xl font-bold text-white uppercase tracking-tight">EternalBlue Exploit</h1>
+          </div>
+          <div class="status-badge glass text-red-500 border-red-500/50"><i class="fa-solid fa-bug"></i><span>EXPLOIT: RCE</span></div>
+        </div>
+        <div class="flex-1 grid grid-cols-2 gap-12 items-center">
+          <div class="space-y-8 fade-up delay-1">
+            <div>
+              <h2 class="font-display text-2xl text-cyan-400 mb-4 font-bold uppercase">The SMB Vulnerability</h2>
+              <p class="text-gray-300 text-lg leading-relaxed">
+                Leveraged a critical flaw in Microsoft's <span class="text-white font-bold">SMBv1 protocol</span>. The exploit, allegedly developed by the NSA, allowed for unauthenticated remote code execution.
+              </p>
+            </div>
+            <div class="grid grid-cols-1 gap-4">
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded border border-cyan-500/30 flex items-center justify-center text-cyan-500"><i class="fa-brands fa-windows"></i></div>
+                <p class="text-gray-400 text-sm"><span class="text-white font-bold">Target:</span> Windows 7 & Server 2008 systems.</p>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded border border-cyan-500/30 flex items-center justify-center text-cyan-500"><i class="fa-solid fa-network-wired"></i></div>
+                <p class="text-gray-400 text-sm"><span class="text-white font-bold">Method:</span> Malicious packets sent via Port 445.</p>
+              </div>
+            </div>
+          </div>
+          <div class="glass p-8 border-red-500/20 bg-red-500/5 fade-up delay-2">
+            <div class="flex justify-between mb-6"><span class="font-mono-tech text-red-500 font-bold text-lg">CVE-2017-0144</span><i class="fa-solid fa-triangle-exclamation text-red-500 animate-pulse"></i></div>
+            <h3 class="text-white font-bold text-2xl mb-4">CRITICAL RATING</h3>
+            <div class="space-y-4 text-gray-400">
+              <p><span class="text-white font-bold">Impact:</span> Complete system takeover with SYSTEM privileges.</p>
+              <p><span class="text-white font-bold">Status:</span> Patched in MS17-010 (March 2017).</p>
+              <div class="mt-6 pt-6 border-t border-white/10 text-sm italic">"The patch was available 2 months prior to the attack, exposing massive failures in patch management."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-5" class="slide grid-bg">
+      <div class="relative w-[90%] h-[85%] glass p-10 flex flex-col fade-up">
+        <div class="tech-border-corner top-left"></div>
+        <div class="tech-border-corner top-right"></div>
+        <div class="tech-border-corner bottom-left"></div>
+        <div class="tech-border-corner bottom-right"></div>
+        <div class="flex justify-between items-end mb-8 border-b border-white/10 pb-6">
+          <div>
+            <p class="text-cyan-400 font-mono-tech text-xs tracking-widest uppercase mb-2">04 // Propagation</p>
+            <h1 class="font-display text-5xl font-bold text-white uppercase tracking-tight">Infection Lifecycle</h1>
+          </div>
+          <div class="status-badge glass"><i class="fa-solid fa-network-wired"></i><span>WORM_FLOW</span></div>
+        </div>
+        <div class="flex-1 grid grid-cols-4 gap-6 items-center">
+          <div class="step-card glass p-6 h-full flex flex-col fade-up delay-1">
+            <span class="step-number">STEP 01</span>
+            <div class="icon-container w-16 h-16 mx-auto mb-6"><i class="fa-solid fa-satellite-dish text-2xl"></i></div>
+            <h3 class="text-white font-bold text-sm uppercase mb-3">Scanning</h3>
+            <p class="text-gray-500 text-xs leading-relaxed">Scans local networks and random IPs for open SMB Port 445.</p>
+          </div>
+          <div class="step-card glass p-6 h-full flex flex-col fade-up delay-2">
+            <span class="step-number">STEP 02</span>
+            <div class="icon-container w-16 h-16 mx-auto mb-6 border-red-500 text-red-500"><i class="fa-solid fa-skull-crossbones text-2xl"></i></div>
+            <h3 class="text-white font-bold text-sm uppercase mb-3">Exploit</h3>
+            <p class="text-gray-500 text-xs leading-relaxed">Triggers EternalBlue buffer overflow to gain system access.</p>
+          </div>
+          <div class="step-card glass p-6 h-full flex flex-col fade-up delay-3">
+            <span class="step-number">STEP 03</span>
+            <div class="icon-container w-16 h-16 mx-auto mb-6 border-yellow-500 text-yellow-500"><i class="fa-solid fa-download text-2xl"></i></div>
+            <h3 class="text-white font-bold text-sm uppercase mb-3">Payload</h3>
+            <p class="text-gray-500 text-xs leading-relaxed">Installs DoublePulsar backdoor to execute the ransomware.</p>
+          </div>
+          <div class="step-card glass p-6 h-full flex flex-col fade-up delay-4">
+            <span class="step-number">STEP 04</span>
+            <div class="icon-container w-16 h-16 mx-auto mb-6 border-purple-500 text-purple-500"><i class="fa-solid fa-viruses text-2xl"></i></div>
+            <h3 class="text-white font-bold text-sm uppercase mb-3">Lateral</h3>
+            <p class="text-gray-500 text-xs leading-relaxed">The infected host repeats the cycle on all reachable peers.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-6" class="slide grid-bg">
+      <div class="relative w-[90%] h-[85%] glass p-10 flex flex-col fade-up">
+        <div class="tech-border-corner top-left"></div>
+        <div class="tech-border-corner top-right"></div>
+        <div class="tech-border-corner bottom-left"></div>
+        <div class="tech-border-corner bottom-right"></div>
+        <div class="flex justify-between items-end mb-8 border-b border-white/10 pb-6">
+          <div>
+            <p class="text-cyan-400 font-mono-tech text-xs tracking-widest uppercase mb-2">05 // Indicators</p>
+            <h1 class="font-display text-5xl font-bold text-white uppercase tracking-tight">The Victim's Screen</h1>
+          </div>
+          <div class="status-badge glass text-red-500 border-red-500/50"><i class="fa-solid fa-triangle-exclamation"></i><span>COMPROMISED</span></div>
+        </div>
+        <div class="flex-1 grid grid-cols-2 gap-16 items-center">
+          <div class="fade-up delay-1">
+            <div class="bg-red-600 rounded-t-lg p-3 flex justify-between items-center">
+              <div class="flex items-center gap-2"><i class="fa-solid fa-lock text-white"></i><span class="font-bold text-sm text-white">Wanna Decryptor 2.0</span></div>
+              <div class="flex gap-1"><div class="w-3 h-3 rounded-full bg-white/20"></div><div class="w-3 h-3 rounded-full bg-white/20"></div></div>
+            </div>
+            <div class="bg-gray-100 p-8 rounded-b-lg text-black">
+              <h3 class="text-2xl font-bold mb-4">Ooops, your files have been encrypted!</h3>
+              <p class="text-sm mb-6">What Happened to My Computer? Your important files are encrypted. Many of your documents, photos, videos, databases and other files are no longer accessible...</p>
+              <div class="flex justify-between items-center border-t pt-4">
+                <div class="text-xs text-red-600 font-bold">Payment will be raised on:<br>5/15/2017 00:00:00</div>
+                <button class="bg-gray-300 px-4 py-1 text-xs border border-gray-400">Check Payment</button>
+              </div>
+            </div>
+          </div>
+          <div class="space-y-6 fade-up delay-2">
+            <div class="card-base p-6 flex items-start gap-6">
+              <div class="icon-container w-12 h-12 shrink-0 border-red-500 text-red-500"><i class="fa-solid fa-file-circle-xmark"></i></div>
+              <div><h3 class="text-white font-bold uppercase mb-1">.WNCRY Extension</h3><p class="text-gray-500 text-sm">All user files renamed and locked with unbreakable encryption.</p></div>
+            </div>
+            <div class="card-base p-6 flex items-start gap-6">
+              <div class="icon-container w-12 h-12 shrink-0 border-yellow-500 text-yellow-500"><i class="fa-solid fa-hourglass-start"></i></div>
+              <div><h3 class="text-white font-bold uppercase mb-1">Pressure Timers</h3><p class="text-gray-500 text-sm">Countdown clocks displayed to force victims into paying $300-$600.</p></div>
+            </div>
+            <div class="card-base p-6 flex items-start gap-6">
+              <div class="icon-container w-12 h-12 shrink-0 border-gray-500 text-gray-500"><i class="fa-solid fa-trash-can"></i></div>
+              <div><h3 class="text-white font-bold uppercase mb-1">Deletion Threat</h3><p class="text-gray-500 text-sm">Warning that keys would be deleted after 7 days if payment missed.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-7" class="slide grid-bg">
+      <div class="relative w-[90%] h-[85%] glass p-10 flex flex-col fade-up">
+        <div class="tech-border-corner top-left"></div>
+        <div class="tech-border-corner top-right"></div>
+        <div class="tech-border-corner bottom-left"></div>
+        <div class="tech-border-corner bottom-right"></div>
+        
+        <div class="flex justify-between items-end mb-8 border-b border-white/10 pb-6">
+          <div>
+            <p class="text-cyan-400 font-mono-tech text-xs tracking-widest uppercase mb-2">06 // Scale of Damage</p>
+            <h1 class="font-display text-5xl font-bold text-white uppercase tracking-tight">Global Impact Statistics</h1>
+          </div>
+          <div class="flex flex-col items-end gap-2">
+            <div class="status-badge glass border-cyan-500/50 text-cyan-400"><i class="fa-solid fa-chart-line"></i><span>IMPACT_REPORT</span></div>
+            <p class="font-mono-tech text-[10px] text-cyan-500/40 animate-pulse">STREAMING_LIVE_DATA...</p>
+          </div>
+        </div>
+
+        <div class="flex-1 grid grid-cols-12 gap-6">
+          <!-- Main Stats -->
+          <div class="col-span-6 glass p-8 fade-up delay-1 flex flex-col justify-center border-l-4 border-cyan-500 bg-cyan-500/[0.02] hover:bg-cyan-500/[0.05] transition-all duration-500">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-10 h-10 rounded border border-cyan-500/30 flex items-center justify-center bg-cyan-500/10">
+                <i class="fa-solid fa-laptop-code text-cyan-400 text-xl"></i>
+              </div>
+              <span class="text-cyan-100 uppercase font-bold text-xs tracking-[0.2em] font-display">Total Infections</span>
+            </div>
+            <p class="text-8xl font-bold text-white mb-4 font-display neon-glow">200k<span class="text-red-500">+</span></p>
+            <p class="text-gray-400 text-sm leading-relaxed max-w-md">Endpoints compromised globally within the first 72 hours of the initial outbreak.</p>
+          </div>
+
+          <div class="col-span-6 glass p-8 fade-up delay-2 flex flex-col justify-center border-l-4 border-cyan-500 bg-cyan-500/[0.02] hover:bg-cyan-500/[0.05] transition-all duration-500">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-10 h-10 rounded border border-cyan-500/30 flex items-center justify-center bg-cyan-500/10">
+                <i class="fa-solid fa-earth-americas text-cyan-400 text-xl"></i>
+              </div>
+              <span class="text-cyan-100 uppercase font-bold text-xs tracking-[0.2em] font-display">Global Reach</span>
+            </div>
+            <p class="text-8xl font-bold text-white mb-4 font-display neon-glow">150</p>
+            <p class="text-gray-400 text-sm leading-relaxed max-w-md">Countries affected across Europe, Asia, and the Americas, disrupting critical infrastructure.</p>
+          </div>
+
+          <!-- Victims Section -->
+          <div class="col-span-12 glass p-8 fade-up delay-3 bg-red-500/[0.01]">
+            <div class="flex items-center justify-between mb-8">
+              <div class="flex items-center gap-4">
+                <i class="fa-solid fa-building-circle-exclamation text-red-500 text-2xl animate-pulse"></i>
+                <span class="text-gray-300 uppercase font-bold text-xs tracking-widest font-display">High-Profile Victims & Consequences</span>
+              </div>
+              <div class="h-[1px] flex-1 mx-8 bg-gradient-to-r from-red-500/50 to-transparent"></div>
+            </div>
+            <div class="grid grid-cols-3 gap-12">
+              <div class="border-l-2 border-red-500/30 pl-6 py-2 group hover:border-red-500 transition-all duration-300">
+                <h3 class="text-white font-bold text-xl mb-3 font-display uppercase tracking-wide group-hover:text-red-400 transition-colors">NHS (UK)</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Hospitals turned away patients; <span class="text-red-400 font-bold">19,000+</span> appointments and surgeries cancelled due to system lockouts.</p>
+              </div>
+              <div class="border-l-2 border-red-500/30 pl-6 py-2 group hover:border-red-500 transition-all duration-300">
+                <h3 class="text-white font-bold text-xl mb-3 font-display uppercase tracking-wide group-hover:text-red-400 transition-colors">FedEx (TNT Express)</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Global logistics systems paralyzed; estimated <span class="text-red-400 font-bold">$300M+</span> in operational losses and restoration costs.</p>
+              </div>
+              <div class="border-l-2 border-red-500/30 pl-6 py-2 group hover:border-red-500 transition-all duration-300">
+                <h3 class="text-white font-bold text-xl mb-3 font-display uppercase tracking-wide group-hover:text-red-400 transition-colors">Telefónica</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Spanish telecom giant forced to shut down internal networks; <span class="text-red-400 font-bold">85%</span> of devices affected in headquarters.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-8" class="slide grid-bg">
+      <div class="relative w-[90%] h-[85%] glass p-10 flex flex-col fade-up">
+        <div class="tech-border-corner top-left"></div>
+        <div class="tech-border-corner top-right"></div>
+        <div class="tech-border-corner bottom-left"></div>
+        <div class="tech-border-corner bottom-right"></div>
+        <div class="flex justify-between items-end mb-8 border-b border-white/10 pb-6">
+          <div>
+            <p class="text-cyan-400 font-mono-tech text-xs tracking-widest uppercase mb-2">07 // Consequences</p>
+            <h1 class="font-display text-5xl font-bold text-white uppercase tracking-tight">Economic & Human Cost</h1>
+          </div>
+          <div class="status-badge glass text-red-500 border-red-500/50"><i class="fa-solid fa-biohazard"></i><span>CRITICAL_FAILURE</span></div>
+        </div>
+        <div class="flex-1 grid grid-cols-2 gap-12 items-center">
+          <div class="space-y-10 fade-up delay-1">
+            <div class="flex items-start gap-6"><div class="icon-container w-16 h-16 shrink-0"><i class="fa-solid fa-hospital-user text-2xl"></i></div><div><h3 class="text-white font-bold text-xl uppercase mb-2">Healthcare Crisis</h3><p class="text-gray-400 leading-relaxed">The NHS was one of the hardest hit. Doctors were forced to use pen and paper, and surgeries were cancelled, directly risking human lives.</p></div></div>
+            <div class="flex items-start gap-6"><div class="icon-container w-16 h-16 shrink-0 border-green-500 text-green-500"><i class="fa-solid fa-sack-dollar text-2xl"></i></div><div><h3 class="text-white font-bold text-xl uppercase mb-2">Financial Damage</h3><p class="text-gray-400 leading-relaxed">Total global losses estimated at <span class="text-green-500 font-bold">$4 Billion</span>, including lost productivity and system restoration costs.</p></div></div>
+          </div>
+          <div class="fade-up delay-2">
+            <div class="glass p-10 relative overflow-hidden"><div class="absolute -right-10 -bottom-10 opacity-10"><i class="fa-solid fa-triangle-exclamation text-[200px] text-red-500"></i></div><h3 class="text-red-500 font-mono-tech text-xs uppercase mb-4">Post-Incident Report</h3><p class="text-2xl text-white font-bold leading-tight mb-8">"WannaCry was not just a cybercrime; it was a demonstration of how vulnerable our critical infrastructure is to automated digital threats."</p><div class="flex items-center gap-3"><div class="w-10 h-1 bg-red-500"></div><span class="text-gray-500 text-xs font-bold uppercase">Incident #WC-2017</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-9" class="slide grid-bg">
+      <div class="relative w-[90%] h-[85%] glass p-10 flex flex-col fade-up">
+        <div class="tech-border-corner top-left"></div>
+        <div class="tech-border-corner top-right"></div>
+        <div class="tech-border-corner bottom-left"></div>
+        <div class="tech-border-corner bottom-right"></div>
+        <div class="flex justify-between items-end mb-8 border-b border-white/10 pb-6">
+          <div>
+            <p class="text-cyan-400 font-mono-tech text-xs tracking-widest uppercase mb-2">08 // Financials</p>
+            <h1 class="font-display text-5xl font-bold text-white uppercase tracking-tight">Ransom & Extortion</h1>
+          </div>
+          <div class="status-badge glass text-yellow-500 border-yellow-500/50"><i class="fa-brands fa-bitcoin"></i><span>CRYPTO_EXTORTION</span></div>
+        </div>
+        <div class="flex-1 grid grid-cols-2 gap-12 items-center">
+          <div class="space-y-8 fade-up delay-1">
+            <div class="card-base p-6"><h3 class="text-white font-bold uppercase tracking-widest mb-4">The Demand</h3><p class="text-gray-400 leading-relaxed mb-4">Attackers demanded <span class="text-white font-bold">$300</span> in Bitcoin initially, increasing to <span class="text-white font-bold">$600</span> if not paid within 3 days.</p><div class="flex items-center gap-3 text-yellow-500"><i class="fa-solid fa-circle-info"></i><span class="text-xs font-mono-tech uppercase">Anonymity was key to the model.</span></div></div>
+            <div class="card-base p-6"><h3 class="text-white font-bold uppercase tracking-widest mb-4">Low Success Rate</h3><p class="text-gray-400 leading-relaxed">Despite the scale, the attackers only made around <span class="text-green-500 font-bold">$140,000</span>. Most victims chose restoration over payment.</p></div>
+          </div>
+          <div class="fade-up delay-2">
+            <div class="glass p-8 border-yellow-500/20 bg-yellow-500/5"><div class="flex justify-between items-center mb-6"><h3 class="text-white font-bold text-xl uppercase">Psychological Tactics</h3><i class="fa-solid fa-brain text-yellow-500"></i></div><ul class="space-y-4 text-gray-400 text-sm"><li class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></div>Fear of permanent data loss.</li><li class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></div>Artificial urgency via visible timers.</li><li class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></div>False promise of a "Decryption Guarantee".</li></ul></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-10" class="slide grid-bg">
+      <div class="relative w-[90%] h-[85%] glass p-10 flex flex-col fade-up">
+        <div class="tech-border-corner top-left"></div>
+        <div class="tech-border-corner top-right"></div>
+        <div class="tech-border-corner bottom-left"></div>
+        <div class="tech-border-corner bottom-right"></div>
+        <div class="flex justify-between items-end mb-8 border-b border-white/10 pb-6">
+          <div>
+            <p class="text-cyan-400 font-mono-tech text-xs tracking-widest uppercase mb-2">09 // Mitigation</p>
+            <h1 class="font-display text-5xl font-bold text-white uppercase tracking-tight">The Kill Switch</h1>
+          </div>
+          <div class="status-badge glass text-green-500 border-green-500/50"><i class="fa-solid fa-scissors"></i><span>THREAT_HALTED</span></div>
+        </div>
+        <div class="flex-1 grid grid-cols-2 gap-12 items-center">
+          <div class="fade-up delay-1">
+            <div class="glass p-8 border-green-500/20 bg-green-500/5 mb-8"><h3 class="text-white font-bold text-xl mb-4">MARCUS HUTCHINS</h3><p class="text-gray-400 leading-relaxed">A 22-year-old security researcher discovered a hardcoded domain in the malware's source code. By registering it for <span class="text-white font-bold">$10.69</span>, he accidentally stopped the spread.</p></div>
+            <div class="font-mono-tech text-xs p-4 bg-black/50 border border-white/10 rounded text-cyan-500 break-all">iuqerfsodp9ifjaposdfjhgosurijfaewrwergwea.com</div>
+          </div>
+          <div class="space-y-6 fade-up delay-2">
+            <div class="card-base p-6 flex items-start gap-6"><div class="icon-container w-12 h-12 shrink-0 border-green-500 text-green-500"><i class="fa-solid fa-code-branch"></i></div><div><h3 class="text-white font-bold uppercase mb-1">Logic Check</h3><p class="text-gray-500 text-sm">The malware checked if the domain existed. If it did, it assumed it was in a sandbox and exited.</p></div></div>
+            <div class="card-base p-6 flex items-start gap-6"><div class="icon-container w-12 h-12 shrink-0 border-green-500 text-green-500"><i class="fa-solid fa-shield-halved"></i></div><div><h3 class="text-white font-bold uppercase mb-1">Containment</h3><p class="text-gray-500 text-sm">This didn't fix already infected machines but prevented new ones from being compromised.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-11" class="slide grid-bg">
+      <div class="relative w-[90%] h-[85%] glass p-10 flex flex-col fade-up">
+        <div class="tech-border-corner top-left"></div>
+        <div class="tech-border-corner top-right"></div>
+        <div class="tech-border-corner bottom-left"></div>
+        <div class="tech-border-corner bottom-right"></div>
+        <div class="flex justify-between items-end mb-8 border-b border-white/10 pb-6">
+          <div>
+            <p class="text-cyan-400 font-mono-tech text-xs tracking-widest uppercase mb-2">10 // Analysis</p>
+            <h1 class="font-display text-5xl font-bold text-white uppercase tracking-tight">System Vulnerabilities</h1>
+          </div>
+          <div class="status-badge glass text-red-500 border-red-500/50"><i class="fa-solid fa-triangle-exclamation"></i><span>SECURITY_GAPS</span></div>
+        </div>
+        <div class="flex-1 grid grid-cols-2 gap-12 items-center">
+          <div class="space-y-6 fade-up delay-1">
+            <div class="card-base p-6 flex items-start gap-6"><div class="icon-container w-12 h-12 shrink-0 border-red-500 text-red-500"><i class="fa-brands fa-windows"></i></div><div><h3 class="text-white font-bold uppercase mb-1">Legacy Systems</h3><p class="text-gray-500 text-sm">Widespread use of Windows XP and other unsupported OS versions that lacked security updates.</p></div></div>
+            <div class="card-base p-6 flex items-start gap-6"><div class="icon-container w-12 h-12 shrink-0 border-red-500 text-red-500"><i class="fa-solid fa-microchip"></i></div><div><h3 class="text-white font-bold uppercase mb-1">Unpatched Infrastructure</h3><p class="text-gray-400 text-sm">Many organizations failed to apply the MS17-010 patch even after it was released in March.</p></div></div>
+          </div>
+          <div class="fade-up delay-2">
+            <div class="glass p-8 border-white/10 bg-white/5"><h3 class="text-white font-bold text-xl mb-6 uppercase">Root Causes</h3><div class="space-y-4"><div class="flex justify-between text-sm"><span class="text-gray-500">Patch Management Delay</span><span class="text-red-500">85%</span></div><div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden"><div class="bg-red-500 h-full" style="width: 85%"></div></div><div class="flex justify-between text-sm mt-4"><span class="text-gray-500">Legacy OS Usage</span><span class="text-red-500">60%</span></div><div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden"><div class="bg-red-500 h-full" style="width: 60%"></div></div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-12" class="slide grid-bg">
+      <div class="relative w-[90%] h-[85%] glass p-10 flex flex-col fade-up">
+        <div class="tech-border-corner top-left"></div>
+        <div class="tech-border-corner top-right"></div>
+        <div class="tech-border-corner bottom-left"></div>
+        <div class="tech-border-corner bottom-right"></div>
+        <div class="flex justify-between items-end mb-8 border-b border-white/10 pb-6">
+          <div>
+            <p class="text-cyan-400 font-mono-tech text-xs tracking-widest uppercase mb-2">11 // Defense</p>
+            <h1 class="font-display text-5xl font-bold text-white uppercase tracking-tight">Prevention Strategies</h1>
+          </div>
+          <div class="status-badge glass text-cyan-500 border-cyan-500/50"><i class="fa-solid fa-shield-halved"></i><span>SAFEGUARDS</span></div>
+        </div>
+        <div class="flex-1 grid grid-cols-3 gap-8">
+          <div class="card-base p-8 flex flex-col items-center text-center fade-up delay-1"><div class="icon-container w-20 h-20 mb-6"><i class="fa-solid fa-up-long text-3xl"></i></div><h3 class="text-white font-bold uppercase mb-4">Regular Updates</h3><p class="text-gray-500 text-sm">Automate patching for all systems to eliminate known vulnerabilities like EternalBlue.</p></div>
+          <div class="card-base p-8 flex flex-col items-center text-center fade-up delay-2"><div class="icon-container w-20 h-20 mb-6 border-purple-500 text-purple-500"><i class="fa-solid fa-database text-3xl"></i></div><h3 class="text-white font-bold uppercase mb-4">Data Backups</h3><p class="text-gray-500 text-sm">Maintain offline, immutable backups of critical data to ensure recovery without paying ransoms.</p></div>
+          <div class="card-base p-8 flex flex-col items-center text-center fade-up delay-3"><div class="icon-container w-20 h-20 mb-6 border-green-500 text-green-500"><i class="fa-solid fa-users-gear text-3xl"></i></div><h3 class="text-white font-bold uppercase mb-4">Staff Training</h3><p class="text-gray-500 text-sm">Educate employees on phishing and social engineering to prevent initial entry points.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-13" class="slide grid-bg">
+      <div class="relative w-[90%] h-[85%] glass p-10 flex flex-col fade-up">
+        <div class="tech-border-corner top-left"></div>
+        <div class="tech-border-corner top-right"></div>
+        <div class="tech-border-corner bottom-left"></div>
+        <div class="tech-border-corner bottom-right"></div>
+        <div class="flex justify-between items-end mb-8 border-b border-white/10 pb-6">
+          <div>
+            <p class="text-cyan-400 font-mono-tech text-xs tracking-widest uppercase mb-2">12 // Attribution</p>
+            <h1 class="font-display text-5xl font-bold text-white uppercase tracking-tight">The Culprits</h1>
+          </div>
+          <div class="status-badge glass"><i class="fa-solid fa-user-secret"></i><span>INVESTIGATION</span></div>
+        </div>
+        <div class="flex-1 grid grid-cols-2 gap-12 items-center">
+          <div class="space-y-8 fade-up delay-1"><h2 class="text-white font-bold text-3xl uppercase leading-tight">Lazarus Group</h2><p class="text-gray-300 text-lg leading-relaxed">The US Department of Justice and other international agencies attributed the attack to the <span class="text-cyan-400 font-bold">Lazarus Group</span>, a state-sponsored hacking collective from North Korea.</p><div class="p-6 border-l-4 border-cyan-500 bg-cyan-500/5"><p class="text-gray-400 italic">"The evidence points to a sophisticated operation designed for both financial gain and geopolitical disruption."</p></div></div>
+          <div class="fade-up delay-2"><div class="glass p-8 border-white/10 bg-black/40"><h3 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Digital Fingerprints</h3><ul class="space-y-4 text-sm text-gray-500"><li class="flex items-center gap-3"><i class="fa-solid fa-code text-cyan-500"></i>Shared code with previous Lazarus malware.</li><li class="flex items-center gap-3"><i class="fa-solid fa-server text-cyan-500"></i>C2 infrastructure overlaps.</li><li class="flex items-center gap-3"><i class="fa-solid fa-clock text-cyan-500"></i>Working hours consistent with North Korean timezone.</li></ul></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-14" class="slide grid-bg">
+      <div class="relative w-[90%] h-[85%] glass p-10 flex flex-col fade-up">
+        <div class="tech-border-corner top-left"></div>
+        <div class="tech-border-corner top-right"></div>
+        <div class="tech-border-corner bottom-left"></div>
+        <div class="tech-border-corner bottom-right"></div>
+        <div class="flex justify-between items-end mb-8 border-b border-white/10 pb-6">
+          <div>
+            <p class="text-cyan-400 font-mono-tech text-xs tracking-widest uppercase mb-2">13 // Summary</p>
+            <h1 class="font-display text-5xl font-bold text-white uppercase tracking-tight">Lessons Learned</h1>
+          </div>
+          <div class="status-badge glass text-green-500 border-green-500/50"><i class="fa-solid fa-graduation-cap"></i><span>KNOWLEDGE_GAINED</span></div>
+        </div>
+        <div class="flex-1 grid grid-cols-2 gap-12">
+          <div class="space-y-6 fade-up delay-1">
+            <div class="card-base p-6"><h3 class="text-white font-bold mb-2 uppercase text-sm">Global Interconnectivity</h3><p class="text-gray-500 text-sm">A vulnerability in one system can paralyze global infrastructure in hours.</p></div>
+            <div class="card-base p-6"><h3 class="text-white font-bold mb-2 uppercase text-sm">Patching is Non-Negotiable</h3><p class="text-gray-500 text-sm">Security updates are the most effective defense against automated exploits.</p></div>
+            <div class="card-base p-6"><h3 class="text-white font-bold mb-2 uppercase text-sm">State-Sponsored Threats</h3><p class="text-gray-500 text-sm">The line between cybercrime and state warfare is increasingly blurred.</p></div>
+          </div>
+          <div class="flex items-center justify-center fade-up delay-2"><div class="text-center"><div class="icon-container w-32 h-32 mx-auto mb-8 border-cyan-500 text-cyan-500"><i class="fa-solid fa-shield-virus text-6xl"></i></div><h3 class="text-white font-bold text-2xl uppercase mb-4">Future Readiness</h3><p class="text-gray-400">Cybersecurity is an ongoing battle of speed and diligence.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-15" class="slide grid-bg">
+      <div class="relative w-[90%] h-[85%] glass p-10 flex flex-col fade-up">
+        <div class="tech-border-corner top-left"></div>
+        <div class="tech-border-corner top-right"></div>
+        <div class="tech-border-corner bottom-left"></div>
+        <div class="tech-border-corner bottom-right"></div>
+        <div class="flex-1 flex flex-col items-center justify-center text-center">
+          <div class="fade-up mb-12"><p class="text-cyan-400 font-mono-tech text-sm tracking-[0.5em] uppercase mb-4">Conclusion</p><h1 class="font-display text-7xl font-bold text-white uppercase tracking-tighter">Stay Vigilant.</h1></div>
+          <div class="grid grid-cols-3 gap-12 w-full max-w-4xl fade-up delay-1">
+            <div class="flex flex-col items-center"><i class="fa-solid fa-shield text-2xl text-cyan-500 mb-4"></i><span class="text-gray-500 text-xs font-bold uppercase">Update</span></div>
+            <div class="flex flex-col items-center"><i class="fa-solid fa-rotate text-2xl text-cyan-500 mb-4"></i><span class="text-gray-500 text-xs font-bold uppercase">Backup</span></div>
+            <div class="flex flex-col items-center"><i class="fa-solid fa-eye text-2xl text-cyan-500 mb-4"></i><span class="text-gray-500 text-xs font-bold uppercase">Monitor</span></div>
+          </div>
+          <div class="mt-20 fade-up delay-2"><p class="text-gray-500 text-sm">Presented by Case Study Group V1.0</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-16" class="slide grid-bg">
+      <div class="relative w-[90%] h-[85%] glass p-10 flex flex-col fade-up">
+        <div class="tech-border-corner top-left"></div>
+        <div class="tech-border-corner top-right"></div>
+        <div class="tech-border-corner bottom-left"></div>
+        <div class="tech-border-corner bottom-right"></div>
+        <div class="flex-1 flex flex-col items-center justify-center">
+          <div class="icon-container w-24 h-24 mb-10 rounded-full border-cyan-500 text-cyan-500 fade-up"><i class="fa-solid fa-question text-4xl"></i></div>
+          <h1 class="font-display text-6xl font-bold text-white uppercase mb-4 fade-up delay-1">Q & A</h1>
+          <p class="text-cyan-400 font-mono-tech tracking-widest fade-up delay-2">Any questions regarding the case study?</p>
+          <div class="mt-16 w-full max-w-2xl border-t border-white/10 pt-10 flex justify-center gap-12 fade-up delay-3">
+            <div class="flex items-center gap-3"><i class="fa-solid fa-envelope text-gray-500"></i><span class="text-gray-400 text-xs font-mono-tech">security@study.lab</span></div>
+            <div class="flex items-center gap-3"><i class="fa-solid fa-globe text-gray-500"></i><span class="text-gray-400 text-xs font-mono-tech">www.cyber-archive.org</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-17" class="slide ransom-screen">
+      <div class="relative w-full h-full flex flex-col p-12 items-center justify-center">
+        <h1 class="ransom-title glitch" data-text="Ooops, your files have been encrypted!">Ooops, your files have been encrypted!</h1>
+        <div class="grid grid-cols-3 gap-8 w-full max-w-6xl mt-8">
+          <div class="col-span-1 space-y-6">
+            <div class="ransom-box text-sm"><h3 class="font-bold border-b border-black mb-2">What Happened to My Computer?</h3><p>Your important files are encrypted. Many of your documents, photos, videos, databases and other files are no longer accessible because they have been encrypted.</p></div>
+            <div class="ransom-box text-sm"><h3 class="font-bold border-b border-black mb-2">Can I Recover My Files?</h3><p>Sure. We guarantee that you can recover all your files safely and easily. But you have not so enough time.</p></div>
+          </div>
+          <div class="col-span-1 flex flex-col items-center">
+            <div class="w-48 h-48 bg-white p-4 mb-4 flex items-center justify-center"><i class="fa-solid fa-lock text-9xl text-red-600"></i></div>
+            <div class="ransom-box w-full text-center"><p class="text-red-600 font-bold mb-1">Payment will be raised on</p><p class="font-bold">5/15/2017 00:00:00</p><div class="mt-4 border-t border-black pt-2"><p class="text-red-600 font-bold mb-1">Files will be lost on</p><p class="font-bold">5/19/2017 00:00:00</p></div></div>
+          </div>
+          <div class="col-span-1 space-y-6">
+            <div class="ransom-box text-sm"><h3 class="font-bold border-b border-black mb-2">How Do I Pay?</h3><p>Payment is accepted in Bitcoin only. For more information, click &lt;About bitcoin&gt;.</p><p class="mt-2">Please send $300 worth of Bitcoin to this address:</p><div class="bg-gray-200 p-2 mt-2 font-mono text-xs break-all">12t9YDPgwueZ9NyMgw519p7AA8isjr6SMw</div></div>
+            <button class="w-full py-4 bg-gray-800 text-white font-bold border-4 border-black hover:bg-black transition-colors">Decrypt</button>
+          </div>
+        </div>
+        <p class="mt-12 font-mono text-xs opacity-50 text-white">Wanna Decryptor 2.0</p>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="nav-controls">
+    <button id="prevBtn" class="nav-btn"><i class="fa-solid fa-chevron-left"></i></button>
+    <button id="nextBtn" class="nav-btn"><i class="fa-solid fa-chevron-right"></i></button>
+  </div>
+
+  <div id="progressBar" class="progress-bar" style="width: 0%"></div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const progressBar = document.getElementById('progressBar');
+    let currentSlide = 0;
+
+    function updateSlides() {
+      slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === currentSlide);
+      });
+      const progress = ((currentSlide + 1) / slides.length) * 100;
+      progressBar.style.width = `${progress}%`;
+      
+      // Hide matrix on last slide
+      const canvas = document.getElementById('matrix-canvas');
+      if (currentSlide === slides.length - 1) {
+        canvas.style.opacity = '0';
+      } else {
+        canvas.style.opacity = '0.15';
+      }
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlides();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentSlide < slides.length - 1) {
+        currentSlide++;
+        updateSlides();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        if (currentSlide < slides.length - 1) {
+          currentSlide++;
+          updateSlides();
+        }
+      } else if (e.key === 'ArrowLeft') {
+        if (currentSlide > 0) {
+          currentSlide--;
+          updateSlides();
+        }
+      }
+    });
+
+    // Matrix Background Effect
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:,.<>?';
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#00d4ff';
+      ctx.font = `${fontSize}px monospace`;
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = characters.charAt(Math.floor(Math.random() * characters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(drawMatrix, 50);
+    updateSlides();
+  </script>
+</body>
+</html>
