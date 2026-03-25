@@ -30,6 +30,7 @@
         overflow: hidden;
         width: 100vw;
         height: 100vh;
+        position: fixed; /* Prevent bouncing on mobile */
       }
 
       /* Navigation & Slides */
@@ -44,6 +45,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 20px;
+        overflow-y: auto; /* Allow scrolling within slides if needed */
+        -webkit-overflow-scrolling: touch;
       }
 
       .slide.active {
@@ -80,10 +84,18 @@
         opacity: 0.5;
       }
 
-      .hud-corner-tl { top: 20px; left: 20px; border-width: 4px 0 0 4px; }
-      .hud-corner-tr { top: 20px; right: 20px; border-width: 4px 4px 0 0; }
-      .hud-corner-bl { bottom: 20px; left: 20px; border-width: 0 0 4px 4px; }
-      .hud-corner-br { bottom: 20px; right: 20px; border-width: 0 4px 4px 0; }
+      .hud-corner-tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; }
+      .hud-corner-tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; }
+      .hud-corner-bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; }
+      .hud-corner-br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
+
+      @media (min-width: 768px) {
+        .hud-corner { width: 40px; height: 40px; }
+        .hud-corner-tl { top: 20px; left: 20px; border-width: 4px 0 0 4px; }
+        .hud-corner-tr { top: 20px; right: 20px; border-width: 4px 4px 0 0; }
+        .hud-corner-bl { bottom: 20px; left: 20px; border-width: 0 0 4px 4px; }
+        .hud-corner-br { bottom: 20px; right: 20px; border-width: 0 4px 4px 0; }
+      }
 
       .hud-scanline {
         position: absolute;
@@ -227,16 +239,16 @@
       /* Navigation Buttons */
       .nav-controls {
         position: fixed;
-        bottom: 30px;
-        right: 30px;
+        bottom: 15px;
+        right: 15px;
         display: flex;
-        gap: 15px;
+        gap: 8px;
         z-index: 1000;
       }
 
       .nav-btn {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         border: 1px solid var(--primary-cyan);
         background: rgba(0, 212, 255, 0.1);
         color: var(--primary-cyan);
@@ -246,6 +258,20 @@
         cursor: pointer;
         transition: all 0.3s ease;
         backdrop-filter: blur(5px);
+        font-size: 0.875rem;
+      }
+
+      @media (min-width: 768px) {
+        .nav-controls {
+          bottom: 30px;
+          right: 30px;
+          gap: 15px;
+        }
+        .nav-btn {
+          width: 50px;
+          height: 50px;
+          font-size: 1rem;
+        }
       }
 
       .nav-btn:hover {
