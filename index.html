@@ -783,6 +783,24 @@
       }
     });
 
+    // Mouse click navigation
+    document.addEventListener('click', (e) => {
+      if (e.button === 0) { // left click
+        if (currentSlide < slides.length - 1) {
+          currentSlide++;
+          updateSlides();
+        }
+      }
+    });
+
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlides();
+      }
+    });
+
     // Matrix Background Effect
     const canvas = document.getElementById('matrix-canvas');
     const ctx = canvas.getContext('2d');
